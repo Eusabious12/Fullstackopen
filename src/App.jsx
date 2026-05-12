@@ -29,6 +29,7 @@ const Course = ({ course }) => {
   )
 }
 
+
 const App = () => {
   const course = {
     id: 1,
@@ -39,7 +40,20 @@ const App = () => {
       { name: 'State of a component', exercises: 14, id: 3 }
     ]
   }
+const Total = ({ course }) => {
+  const total = course.parts.reduce((sum, part) => sum + part.exercises, 0)
+  return <p><strong>total of {total} exercises</strong></p>
+}
 
+const Course = ({ course }) => {
+  return (
+    <div>
+      <Header course={course} />
+      <Content course={course} />
+      <Total course={course} />
+    </div>
+  )
+}
   return <Course course={course} />
 }
 
