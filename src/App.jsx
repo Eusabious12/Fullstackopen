@@ -30,18 +30,15 @@ const Persons = ({ personsToShow }) => {
 }
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas' }])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
 
-
-  useEffect (() => {
+  useEffect(() => {
     axios.get('http://localhost:3001/persons')
-    .then(response => setPersons(response.data))
-
-
-  },[])
+      .then(response => setPersons(response.data))
+  }, [])
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -51,9 +48,12 @@ const App = () => {
       return
     }
     const personObject = { name: newName, number: newNumber }
-    setPersons(persons.concat(personObject))
-    setNewName('')
-    setNewNumber('')
+    axios.post('http://localhost:3001/persons', personObject)
+      .then(response => {
+        setPersons(persons.concat(response.data))
+        setNewName('')
+        setNewNumber('')
+      })
   }
 
   const personsToShow = filter === ''
